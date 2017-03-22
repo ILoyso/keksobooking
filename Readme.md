@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Irina Shasheva](https://up.htmlacademy.ru/javascript/9/user/130615).
-* Наставник: `Неизвестно`.
+* Наставник: `Егор Огарков`.
 
 ---
 
