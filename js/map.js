@@ -142,14 +142,14 @@ function generateDescription(array) {
   return newDescription;
 }
 
-function createDescriptions(array) {
+function createDescriptions(advertInfo) {
   var fragment = document.createDocumentFragment();
   var parentDiv = descriptionPlace.parentNode;
-  fragment.appendChild(generateDescription(array));
+  fragment.appendChild(generateDescription(advertInfo));
   parentDiv.replaceChild(fragment, descriptionPlace);
 
   var avatar = document.querySelector('.dialog__title').querySelector('img');
-  avatar.setAttribute('src', array.author.avatar);
+  avatar.setAttribute('src', advertInfo.author.avatar);
 }
 
 createDescriptions(advert[0]);
