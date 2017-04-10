@@ -10,7 +10,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 
 var marksPlace = document.querySelector('.tokyo__pin-map');
 var descriptionTemplate = document.querySelector('#lodge-template').content;
-var descriptionPlace = document.querySelector('.dialog__panel');
+
 
 function generateRandomValue(min, max) {
   var value = (Math.round(Math.random() * (max - min) + min));
@@ -82,6 +82,7 @@ function generateMark(array) {
   markImg.setAttribute('src', array.author.avatar);
   markImg.setAttribute('width', markWidth);
   markImg.setAttribute('height', markHeight);
+  markImg.setAttribute('tabindex', 0);
   newMark.appendChild(markImg);
   return newMark;
 }
@@ -143,6 +144,7 @@ function generateDescription(array) {
 }
 
 function createDescriptions(advertInfo) {
+  var descriptionPlace = document.querySelector('.dialog__panel');
   var fragment = document.createDocumentFragment();
   var parentDiv = descriptionPlace.parentNode;
   fragment.appendChild(generateDescription(advertInfo));
@@ -152,4 +154,71 @@ function createDescriptions(advertInfo) {
   avatar.setAttribute('src', advertInfo.author.avatar);
 }
 
-createDescriptions(advert[0]);
+var allMarks = document.querySelectorAll('.pin');
+var description = document.querySelector('.dialog');
+var descriptionClose = document.querySelector('.dialog__close');
+
+var removeClass = function (array, removedClass) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].classList.contains(removedClass)) {
+      array[i].classList.remove(removedClass);
+    }
+  }
+};
+
+var openDescription = function (evt) {
+  var clickedElement = evt.target;
+  var clickedElementWrap = clickedElement.parentNode;
+
+  if (clickedElement.classList.contains('rounded')) {
+    var imageSrc = clickedElement.getAttribute('src');
+
+    for (var i = 0; i < advert.length; i++) {
+      if (advert[i].author.avatar === imageSrc) {
+        var order = i;
+      }
+    }
+    createDescriptions(advert[order]);
+
+    document.addEventListener('keydown', onDescriptionEscPress);
+    removeClass(allMarks, 'pin--active');
+    clickedElementWrap.classList.add('pin--active');
+    description.setAttribute('style', 'display: block;');
+  }
+};
+
+var hideDescription = function (block) {
+  block.setAttribute('style', 'display: none;');
+  document.removeEventListener('keydown', onDescriptionEscPress);
+};
+
+function onDescriptionEscPress(evt) {
+  if (evt.keyCode === 27) {
+    hideDescription(description);
+  }
+}
+
+hideDescription(description);
+
+
+marksPlace.addEventListener('click', function (evt) {
+  openDescription(evt);
+});
+
+marksPlace.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    openDescription(evt);
+  }
+});
+
+descriptionClose.addEventListener('click', function () {
+  hideDescription(description);
+  removeClass(allMarks, 'pin--active');
+});
+
+descriptionClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    hideDescription(description);
+    removeClass(allMarks, 'pin--active');
+  }
+});
