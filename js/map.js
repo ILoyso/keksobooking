@@ -170,7 +170,7 @@ var openDescription = function (evt) {
   var clickedElement = evt.target;
   var clickedElementWrap = clickedElement.parentNode;
 
-  if (clickedElement.classList.contains('rounded')) {
+  if ((clickedElement.classList.contains('rounded')) & !(clickedElementWrap.classList.contains('pin__main'))) {
     var imageSrc = clickedElement.getAttribute('src');
 
     for (var i = 0; i < advert.length; i++) {
