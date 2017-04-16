@@ -244,7 +244,7 @@ var validateTitle = function () {
 
 var validatePrice = function () {
   var value = formPrice.value;
-  if ((value < 0) || (value > 1000000) || ' ') {
+  if ((value < 0) || (value > 1000000) || (value === '')) {
     formPrice.setAttribute('style', 'border: 1px solid red;');
     return;
   }
@@ -277,7 +277,7 @@ var validateTime = function () {
 
 var validateCapacityByRooms = function () {
   var value = formRooms.value;
-  if (value <= 2) {
+  if (value <= 1) {
     formCapacity.selectedIndex = 1;
   } else {
     formCapacity.selectedIndex = 0;
