@@ -275,12 +275,26 @@ var validateTime = function () {
   formTimeOut.selectedIndex = timeInIndex;
 };
 
+var validateTimeOut = function () {
+  var timeOutIndex = formTimeOut.selectedIndex;
+  formTimeIn.selectedIndex = timeOutIndex;
+};
+
 var validateCapacityByRooms = function () {
   var value = formRooms.value;
   if (value <= 1) {
     formCapacity.selectedIndex = 1;
   } else {
     formCapacity.selectedIndex = 0;
+  }
+};
+
+var validateRoomsByCapacity = function () {
+  var value = formCapacity.value;
+  if (value === 0) {
+    formRooms.selectedIndex = 0;
+  } else {
+    formRooms.selectedIndex = 1;
   }
 };
 
@@ -302,8 +316,14 @@ var validateForm = function (evt) {
     case (formTimeIn):
       validateTime();
       break;
+    case (formTimeOut):
+      validateTimeOut();
+      break;
     case (formRooms):
       validateCapacityByRooms();
+      break;
+    case (formCapacity):
+      validateRoomsByCapacity();
       break;
   }
 };
