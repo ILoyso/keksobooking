@@ -291,7 +291,7 @@ var validateCapacityByRooms = function () {
 
 var validateRoomsByCapacity = function () {
   var value = formCapacity.value;
-  if (value === 0) {
+  if (value === '0') {
     formRooms.selectedIndex = 0;
   } else {
     formRooms.selectedIndex = 1;
