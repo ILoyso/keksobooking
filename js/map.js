@@ -284,6 +284,8 @@ var validateCapacityByRooms = function () {
   }
 };
 
+validateCapacityByRooms();
+
 var validateForm = function (evt) {
   var formFieldId = evt.target;
 
