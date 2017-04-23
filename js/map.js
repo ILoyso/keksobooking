@@ -89,6 +89,10 @@ window.useMap = (function () {
         y: moveEvt.clientY
       };
 
+      if ((startCoords.x < 100) || (startCoords.x > 1280) || (startCoords.y < 50) || (startCoords.y > 610)) {
+        return;
+      }
+
       currentMark.style.top = (currentMark.offsetTop - shift.y) + 'px';
       currentMark.style.left = (currentMark.offsetLeft - shift.x) + 'px';
 
