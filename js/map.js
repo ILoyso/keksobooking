@@ -58,6 +58,16 @@ window.useMap = (function () {
   var currentMarkkWidth = currentMark.offsetWidth;
   var currentMarkHeight = currentMark.offsetHeight;
 
+  var fillAddress = function () {
+    var currentMarkCoordinate = currentMark.getBoundingClientRect();
+    var currentMarkX = currentMarkCoordinate.left + (currentMarkkWidth / 2);
+    var currentMarkY = currentMarkCoordinate.top + currentMarkHeight;
+
+    formAddress.setAttribute('value', 'x: ' + currentMarkX + ', y: ' + currentMarkY);
+  };
+
+  fillAddress();
+
   var moveMark = function (evt) {
     evt.preventDefault();
 
@@ -105,6 +115,18 @@ window.useMap = (function () {
         coordsArray[i] = coordsArray[i].slice(1);
       }
       coordsArray[i] = +coordsArray[i];
+    }
+
+    if (coordsArray[1] > (710 - currentMarkHeight)) {
+      coordsArray[1] = 710;
+    } else if (coordsArray[1] < (0 + currentMarkHeight)) {
+      coordsArray[1] = (0 + currentMarkHeight);
+    }
+
+    if (coordsArray[0] > (1200 - currentMarkkWidth / 2)) {
+      coordsArray[0] = 1200;
+    } else if (coordsArray[0] < (0 + currentMarkkWidth / 2)) {
+      coordsArray[0] = (0 + currentMarkkWidth / 2);
     }
 
     currentMark.style.top = coordsArray[1] - currentMarkHeight + 'px';
