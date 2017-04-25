@@ -68,6 +68,16 @@ window.useMap = (function () {
 
   fillAddress();
 
+  var fullMap = document.querySelector('.tokyo');
+  var fullMapWidth = fullMap.offsetWidth;
+  var fullMapHeight = fullMap.offsetHeight;
+  var coordinateMapX = fullMap.getBoundingClientRect().left;
+  var coordinateMapY = fullMap.getBoundingClientRect().top;
+  var minMapX = coordinateMapX + (currentMarkkWidth / 2);
+  var minMapY = coordinateMapY + currentMarkHeight;
+  var maxMapX = coordinateMapX + fullMapWidth;
+  var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
+
   var moveMark = function (evt) {
     evt.preventDefault();
 
@@ -89,7 +99,7 @@ window.useMap = (function () {
         y: moveEvt.clientY
       };
 
-      if ((startCoords.x < 100) || (startCoords.x > 1280) || (startCoords.y < 50) || (startCoords.y > 610)) {
+      if ((startCoords.x < coordinateMapX) || (startCoords.x > maxMapX) || (startCoords.y < coordinateMapY) || (startCoords.y > maxMapY)) {
         return;
       }
 
@@ -121,16 +131,16 @@ window.useMap = (function () {
       coordsArray[i] = +coordsArray[i];
     }
 
-    if (coordsArray[1] > (710 - currentMarkHeight)) {
-      coordsArray[1] = 710;
-    } else if (coordsArray[1] < (0 + currentMarkHeight)) {
-      coordsArray[1] = (0 + currentMarkHeight);
+    if (coordsArray[1] > maxMapY) {
+      coordsArray[1] = maxMapY;
+    } else if (coordsArray[1] < minMapY) {
+      coordsArray[1] = minMapY;
     }
 
-    if (coordsArray[0] > (1200 - currentMarkkWidth / 2)) {
-      coordsArray[0] = 1200;
-    } else if (coordsArray[0] < (0 + currentMarkkWidth / 2)) {
-      coordsArray[0] = (0 + currentMarkkWidth / 2);
+    if (coordsArray[0] > maxMapX) {
+      coordsArray[0] = maxMapX;
+    } else if (coordsArray[0] < minMapX) {
+      coordsArray[0] = minMapX;
     }
 
     currentMark.style.top = coordsArray[1] - currentMarkHeight + 'px';
