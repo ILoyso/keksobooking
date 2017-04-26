@@ -1,15 +1,10 @@
 'use strict';
 
-var marksPlace = document.querySelector('.tokyo__pin-map');
-var descriptionClose = document.querySelector('.dialog__close');
-var currentMark = document.querySelector('.pin__main');
-var formAddress = document.querySelector('#address');
-
-var amountOfAdvert = 8;
-var advert = window.createDate(amountOfAdvert);
-window.createPins(advert);
-
 window.useMap = (function () {
+  var marksPlace = document.querySelector('.tokyo__pin-map');
+  var descriptionClose = document.querySelector('.dialog__close');
+  var currentMark = document.querySelector('.pin__main');
+  var formAddress = document.querySelector('#address');
 
   var removeClass = function (removedClass) {
     var allMarks = document.querySelectorAll('.pin');
@@ -112,39 +107,39 @@ window.useMap = (function () {
     currentMark.style.left = coordsArray[0] - (currentMarkkWidth / 2) + 'px';
   };
 
+  marksPlace.addEventListener('click', function (evt) {
+    window.showCard.openDescription(window.advert, evt);
+  });
+
+  marksPlace.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      window.showCard.openDescription(window.advert, evt);
+    }
+  });
+
+  descriptionClose.addEventListener('click', function (evt) {
+    window.showCard.hideDescription();
+    removeClass('pin--active');
+  });
+
+  descriptionClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      window.showCard.hideDescription();
+      removeClass('pin--active');
+    }
+  });
+
+  currentMark.addEventListener('mousedown', function (evt) {
+    moveMark(evt);
+  });
+
+  formAddress.addEventListener('change', function () {
+    positionMainMark(formAddress.value);
+  });
+
   return {
-    removeClass: removeClass,
-    moveMark: moveMark,
-    positionMainMark: positionMainMark
+    removeClass: removeClass
   };
 })();
 
-marksPlace.addEventListener('click', function (evt) {
-  window.showCard.openDescription(advert, evt);
-});
 
-marksPlace.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
-    window.showCard.openDescription(advert, evt);
-  }
-});
-
-descriptionClose.addEventListener('click', function (evt) {
-  window.showCard.hideDescription();
-  window.useMap.removeClass('pin--active');
-});
-
-descriptionClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
-    window.showCard.hideDescription();
-    window.useMap.removeClass('pin--active');
-  }
-});
-
-currentMark.addEventListener('mousedown', function (evt) {
-  window.useMap.moveMark(evt);
-});
-
-formAddress.addEventListener('change', function () {
-  window.useMap.positionMainMark(formAddress.value);
-});
