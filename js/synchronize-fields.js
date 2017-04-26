@@ -2,8 +2,10 @@
 
 window.synchronizeFields = (function (firstField, secodField, firstValue, secondValue, callback) {
   firstField.addEventListener('change', function () {
-    var order = firstValue.indexOf(firstField.value);
-    var finalValue = secondValue[order];
-    return callback(secodField, finalValue);
+    if (typeof (callback) === 'function') {
+      var order = firstValue.indexOf(firstField.value);
+      var finalValue = secondValue[order];
+      callback(secodField, finalValue);
+    }
   });
 });
