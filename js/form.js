@@ -16,6 +16,8 @@ window.useForm = (function () {
   var formTypeValues = ['Квартира', 'Лачуга', 'Дворец'];
   var formPriceValues = ['1000', '0', '10000'];
 
+  formCapacity.value = formCapacityValues[0];
+
   var syncValues = function (element, value) {
     element.value = value;
   };
@@ -66,15 +68,10 @@ window.useForm = (function () {
   };
 
   formWrap.addEventListener('change', function (evt) {
-    window.useForm.validateForm(evt);
+    validateForm(evt);
   });
 
   formSubmit.addEventListener('click', function () {
-    window.useForm.submitingForm();
+    submitingForm();
   });
-
-  return {
-    validateForm: validateForm,
-    submitingForm: submitingForm
-  };
 })();
