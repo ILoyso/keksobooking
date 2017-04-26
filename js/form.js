@@ -12,6 +12,19 @@ window.useForm = (function () {
   var formRooms = formWrap.querySelector('#room_number');
   var formCapacity = formWrap.querySelector('#capacity');
 
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  window.synchronizeFields(formTimeIn, formTimeOut, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+
+  window.synchronizeFields(formTimeOut, formTimeIn, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+
+  window.synchronizeFields(formRooms, formCapacity, ['1', '2', '100'], ['0', '3', '3'], syncValues);
+
+  window.synchronizeFields(formCapacity, formRooms, ['0', '3', '3'], ['1', '2', '100'], syncValues);
+
   var validateTitle = function () {
     var value = formTitle.value;
     if ((value.length < 30) || (value.length > 100)) {
@@ -49,36 +62,6 @@ window.useForm = (function () {
     validatePriceByType(typeValue);
   };
 
-  var validateTime = function () {
-    var timeInIndex = formTimeIn.selectedIndex;
-    formTimeOut.selectedIndex = timeInIndex;
-  };
-
-  var validateTimeOut = function () {
-    var timeOutIndex = formTimeOut.selectedIndex;
-    formTimeIn.selectedIndex = timeOutIndex;
-  };
-
-  var validateCapacityByRooms = function () {
-    var value = formRooms.value;
-    if (value <= 1) {
-      formCapacity.selectedIndex = 1;
-    } else {
-      formCapacity.selectedIndex = 0;
-    }
-  };
-
-  var validateRoomsByCapacity = function () {
-    var value = formCapacity.value;
-    if (value === '0') {
-      formRooms.selectedIndex = 0;
-    } else {
-      formRooms.selectedIndex = 1;
-    }
-  };
-
-  validateCapacityByRooms();
-
   var validateForm = function (evt) {
     var formFieldId = evt.target;
 
@@ -91,18 +74,6 @@ window.useForm = (function () {
         break;
       case (formType):
         validateType();
-        break;
-      case (formTimeIn):
-        validateTime();
-        break;
-      case (formTimeOut):
-        validateTimeOut();
-        break;
-      case (formRooms):
-        validateCapacityByRooms();
-        break;
-      case (formCapacity):
-        validateRoomsByCapacity();
         break;
     }
   };
