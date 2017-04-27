@@ -7,7 +7,10 @@ window.createDate = (function () {
   (function () {
     var onLoad = function (data) {
       window.advert = data;
-      window.createPins(window.advert);
+
+      // window.createPins.makePins(window.advert);
+      window.createPins.updatePins();
+
     };
 
     window.load(dateUrl, onLoad);

@@ -6,6 +6,8 @@ window.useMap = (function () {
   var currentMark = document.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
 
+  formAddress.setAttribute('disabled', 'disabled');
+
   var removeClass = function (removedClass) {
     var allMarks = document.querySelectorAll('.pin');
     for (var i = 0; i < allMarks.length; i++) {
@@ -33,8 +35,6 @@ window.useMap = (function () {
   var fullMapHeight = fullMap.offsetHeight;
   var coordinateMapX = fullMap.getBoundingClientRect().left;
   var coordinateMapY = fullMap.getBoundingClientRect().top;
-  var minMapX = coordinateMapX + (currentMarkkWidth / 2);
-  var minMapY = coordinateMapY + currentMarkHeight;
   var maxMapX = coordinateMapX + fullMapWidth;
   var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
 
@@ -81,32 +81,6 @@ window.useMap = (function () {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  var positionMainMark = function (value) {
-    var coordsArray = value.split(',');
-
-    for (var i = 0; i < coordsArray.length; i++) {
-      while (isNaN(coordsArray[i])) {
-        coordsArray[i] = coordsArray[i].slice(1);
-      }
-      coordsArray[i] = +coordsArray[i];
-    }
-
-    if (coordsArray[1] > maxMapY) {
-      coordsArray[1] = maxMapY;
-    } else if (coordsArray[1] < minMapY) {
-      coordsArray[1] = minMapY;
-    }
-
-    if (coordsArray[0] > maxMapX) {
-      coordsArray[0] = maxMapX;
-    } else if (coordsArray[0] < minMapX) {
-      coordsArray[0] = minMapX;
-    }
-
-    currentMark.style.top = coordsArray[1] - currentMarkHeight + 'px';
-    currentMark.style.left = coordsArray[0] - (currentMarkkWidth / 2) + 'px';
-  };
-
   marksPlace.addEventListener('click', function (evt) {
     window.showCard.openDescription(window.advert, evt);
   });
@@ -131,10 +105,6 @@ window.useMap = (function () {
 
   currentMark.addEventListener('mousedown', function (evt) {
     moveMark(evt);
-  });
-
-  formAddress.addEventListener('change', function () {
-    positionMainMark(formAddress.value);
   });
 
   return {
