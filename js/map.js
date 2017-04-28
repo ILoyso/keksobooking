@@ -8,15 +8,6 @@ window.useMap = (function () {
 
   formAddress.setAttribute('disabled', 'disabled');
 
-  var removeClass = function (removedClass) {
-    var allMarks = document.querySelectorAll('.pin');
-    for (var i = 0; i < allMarks.length; i++) {
-      if (allMarks[i].classList.contains(removedClass)) {
-        allMarks[i].classList.remove(removedClass);
-      }
-    }
-  };
-
   var currentMarkkWidth = currentMark.offsetWidth;
   var currentMarkHeight = currentMark.offsetHeight;
 
@@ -86,30 +77,26 @@ window.useMap = (function () {
   });
 
   marksPlace.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+    if (window.utils.checkEnterPressed(evt.keyCode)) {
       window.showCard.openDescription(window.advert, evt);
     }
   });
 
   descriptionClose.addEventListener('click', function (evt) {
     window.showCard.hideDescription();
-    removeClass('pin--active');
+    window.utils.removeClass('pin--active');
   });
 
   descriptionClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+    if (window.utils.checkEnterPressed(evt.keyCode)) {
       window.showCard.hideDescription();
-      removeClass('pin--active');
+      window.utils.removeClass('pin--active');
     }
   });
 
   currentMark.addEventListener('mousedown', function (evt) {
     moveMark(evt);
   });
-
-  return {
-    removeClass: removeClass
-  };
 })();
 
 

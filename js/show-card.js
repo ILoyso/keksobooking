@@ -18,7 +18,7 @@ window.showCard = (function () {
       window.createCards(advert[order]);
 
       document.addEventListener('keydown', onDescriptionEscPress);
-      window.useMap.removeClass('pin--active');
+      window.utils.removeClass('pin--active');
       clickedElementWrap.classList.add('pin--active');
       description.setAttribute('style', 'display: block;');
     }
@@ -32,7 +32,7 @@ window.showCard = (function () {
   hideDescription();
 
   var onDescriptionEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (window.utils.checkEscPressed(evt.keyCode)) {
       hideDescription();
     }
   };
