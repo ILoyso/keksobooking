@@ -33,10 +33,6 @@ window.useMap = (function () {
   var fullMap = document.querySelector('.tokyo');
   var fullMapWidth = fullMap.offsetWidth;
   var fullMapHeight = fullMap.offsetHeight;
-  var coordinateMapX = fullMap.getBoundingClientRect().left;
-  var coordinateMapY = fullMap.getBoundingClientRect().top;
-  var maxMapX = coordinateMapX + fullMapWidth;
-  var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
 
   var moveMark = function (evt) {
     evt.preventDefault();
@@ -48,6 +44,10 @@ window.useMap = (function () {
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      var coordinateMapX = fullMap.getBoundingClientRect().left;
+      var coordinateMapY = fullMap.getBoundingClientRect().top;
+      var maxMapX = coordinateMapX + fullMapWidth;
+      var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,

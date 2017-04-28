@@ -20,8 +20,6 @@ window.createPins = (function () {
     return newMark;
   };
 
-  var houseFeaturesList = document.querySelector('#housing_features');
-  var checkboxAll = houseFeaturesList.getElementsByTagName('input');
   var houseType = document.querySelector('#housing_type');
   var housePrice = document.querySelector('#housing_price');
   var houseRoomsCount = document.querySelector('#housing_room-number');
@@ -70,25 +68,17 @@ window.createPins = (function () {
       return it.offer.guests;
     });
 
-    var houseFeaturesFilter = houseGuestFilter.filter(function (it) {
-      var countCheck = 0;
+    var checkboxAll = document.querySelectorAll('#housing_features input');
 
-      for (var i = 0; i < checkboxAll.length; i++) {
-        if (checkboxAll[i].checked) {
-          countCheck = countCheck + 1;
-          if (it.offer.features[i] === checkboxAll[i].value) {
-            return it.offer.features[i];
-          }
-        }
+    checkboxAll.forEach(function (feature) {
+      if (feature.checked) {
+        houseGuestFilter = houseGuestFilter.filter(function (element) {
+          return element.offer.features.indexOf(feature.value) >= 0;
+        });
       }
-
-      if (countCheck === 0) {
-        return houseGuestFilter;
-      }
-      return null;
     });
 
-    window.createPins.makePins(houseFeaturesFilter);
+    window.createPins.makePins(houseGuestFilter);
   };
 
   var checkFilterChanges = function (evt) {
@@ -116,11 +106,6 @@ window.createPins = (function () {
 
   filtersContainer.addEventListener('change', function (evt) {
     checkFilterChanges(evt);
-  });
-
-  houseFeaturesList.addEventListener('change', function (evt) {
-    checkboxAll = houseFeaturesList.getElementsByTagName('input');
-    window.debounce(updatePins);
   });
 
   var removePins = function () {
