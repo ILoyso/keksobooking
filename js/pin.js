@@ -34,14 +34,14 @@ window.createPins = (function () {
   var updatePins = function () {
     var anyValue = 'any';
 
-    var sameTypeOfHouse = window.advert.filter(function (it) {
+    var houseTypeFilter = window.advert.filter(function (it) {
       if (!(houseTypeValue === anyValue)) {
         return it.offer.type === houseTypeValue;
       }
       return it.offer.type;
     });
 
-    var samePriceOfHouse = window.advert.filter(function (it) {
+    var housePriceFilter = houseTypeFilter.filter(function (it) {
       switch (housePriceValue) {
         case 'low':
           return it.offer.price < 10000;
@@ -56,58 +56,66 @@ window.createPins = (function () {
       return null;
     });
 
-    var sameRoomsInHouse = window.advert.filter(function (it) {
+    var houseRoomsFilter = housePriceFilter.filter(function (it) {
       if (!(houseRoomsValue === anyValue)) {
         return it.offer.rooms === Number(houseRoomsValue);
       }
       return it.offer.rooms;
     });
 
-    var sameGuestInHouse = window.advert.filter(function (it) {
+    var houseGuestFilter = houseRoomsFilter.filter(function (it) {
       if (!(houseGuestValue === anyValue)) {
         return it.offer.guests === Number(houseGuestValue);
       }
       return it.offer.guests;
     });
 
-    var sameFeatures = window.advert.filter(function (it) {
+    var houseFeaturesFilter = houseGuestFilter.filter(function (it) {
+      var countCheck = 0;
+
       for (var i = 0; i < checkboxAll.length; i++) {
         if (checkboxAll[i].checked) {
+          countCheck = countCheck + 1;
           if (it.offer.features[i] === checkboxAll[i].value) {
             return it.offer.features[i];
           }
         }
       }
+
+      if (countCheck === 0) {
+        return houseGuestFilter;
+      }
       return null;
     });
 
-    var filteredPins = sameTypeOfHouse;
-    filteredPins = filteredPins.concat(samePriceOfHouse);
-    filteredPins = filteredPins.concat(sameRoomsInHouse);
-    filteredPins = filteredPins.concat(sameGuestInHouse);
-    filteredPins = filteredPins.concat(sameFeatures);
-
-    window.createPins.makePins(filteredPins);
+    window.createPins.makePins(houseFeaturesFilter);
   };
 
-  houseType.addEventListener('change', function (evt) {
-    houseTypeValue = evt.target.value;
-    window.debounce(updatePins);
-  });
+  var checkFilterChanges = function (evt) {
+    var filterChanged = evt.target;
 
-  housePrice.addEventListener('change', function (evt) {
-    housePriceValue = evt.target.value;
-    window.debounce(updatePins);
-  });
+    switch (filterChanged) {
+      case houseType:
+        houseTypeValue = filterChanged.value;
+        break;
+      case housePrice:
+        housePriceValue = filterChanged.value;
+        break;
+      case houseRoomsCount:
+        houseRoomsValue = filterChanged.value;
+        break;
+      case houseGuestCount:
+        houseGuestValue = filterChanged.value;
+        break;
+    }
 
-  houseRoomsCount.addEventListener('change', function (evt) {
-    houseRoomsValue = evt.target.value;
     window.debounce(updatePins);
-  });
+  };
 
-  houseGuestCount.addEventListener('change', function (evt) {
-    houseGuestValue = evt.target.value;
-    window.debounce(updatePins);
+  var filtersContainer = document.querySelector('.tokyo__filters');
+
+  filtersContainer.addEventListener('change', function (evt) {
+    checkFilterChanges(evt);
   });
 
   houseFeaturesList.addEventListener('change', function (evt) {
