@@ -6,14 +6,7 @@ window.useMap = (function () {
   var currentMark = document.querySelector('.pin__main');
   var formAddress = document.querySelector('#address');
 
-  var removeClass = function (removedClass) {
-    var allMarks = document.querySelectorAll('.pin');
-    for (var i = 0; i < allMarks.length; i++) {
-      if (allMarks[i].classList.contains(removedClass)) {
-        allMarks[i].classList.remove(removedClass);
-      }
-    }
-  };
+  formAddress.setAttribute('disabled', 'disabled');
 
   var currentMarkkWidth = currentMark.offsetWidth;
   var currentMarkHeight = currentMark.offsetHeight;
@@ -31,12 +24,6 @@ window.useMap = (function () {
   var fullMap = document.querySelector('.tokyo');
   var fullMapWidth = fullMap.offsetWidth;
   var fullMapHeight = fullMap.offsetHeight;
-  var coordinateMapX = fullMap.getBoundingClientRect().left;
-  var coordinateMapY = fullMap.getBoundingClientRect().top;
-  var minMapX = coordinateMapX + (currentMarkkWidth / 2);
-  var minMapY = coordinateMapY + currentMarkHeight;
-  var maxMapX = coordinateMapX + fullMapWidth;
-  var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
 
   var moveMark = function (evt) {
     evt.preventDefault();
@@ -48,6 +35,10 @@ window.useMap = (function () {
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      var coordinateMapX = fullMap.getBoundingClientRect().left;
+      var coordinateMapY = fullMap.getBoundingClientRect().top;
+      var maxMapX = coordinateMapX + fullMapWidth;
+      var maxMapY = coordinateMapY + fullMapHeight - currentMarkHeight;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -81,65 +72,31 @@ window.useMap = (function () {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  var positionMainMark = function (value) {
-    var coordsArray = value.split(',');
-
-    for (var i = 0; i < coordsArray.length; i++) {
-      while (isNaN(coordsArray[i])) {
-        coordsArray[i] = coordsArray[i].slice(1);
-      }
-      coordsArray[i] = +coordsArray[i];
-    }
-
-    if (coordsArray[1] > maxMapY) {
-      coordsArray[1] = maxMapY;
-    } else if (coordsArray[1] < minMapY) {
-      coordsArray[1] = minMapY;
-    }
-
-    if (coordsArray[0] > maxMapX) {
-      coordsArray[0] = maxMapX;
-    } else if (coordsArray[0] < minMapX) {
-      coordsArray[0] = minMapX;
-    }
-
-    currentMark.style.top = coordsArray[1] - currentMarkHeight + 'px';
-    currentMark.style.left = coordsArray[0] - (currentMarkkWidth / 2) + 'px';
-  };
-
   marksPlace.addEventListener('click', function (evt) {
     window.showCard.openDescription(window.advert, evt);
   });
 
   marksPlace.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+    if (window.utils.checkEnterPressed(evt.keyCode)) {
       window.showCard.openDescription(window.advert, evt);
     }
   });
 
   descriptionClose.addEventListener('click', function (evt) {
     window.showCard.hideDescription();
-    removeClass('pin--active');
+    window.utils.removeClass('pin--active');
   });
 
   descriptionClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+    if (window.utils.checkEnterPressed(evt.keyCode)) {
       window.showCard.hideDescription();
-      removeClass('pin--active');
+      window.utils.removeClass('pin--active');
     }
   });
 
   currentMark.addEventListener('mousedown', function (evt) {
     moveMark(evt);
   });
-
-  formAddress.addEventListener('change', function () {
-    positionMainMark(formAddress.value);
-  });
-
-  return {
-    removeClass: removeClass
-  };
 })();
 
 
