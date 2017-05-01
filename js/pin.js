@@ -117,6 +117,18 @@ window.createPins = (function () {
     });
   };
 
+  var makeRandomPins = function (array, count) {
+    var tempArray = array;
+    var finalRandomArray = [];
+    var randomValue;
+    for (var i = 0; i < count; i++) {
+      randomValue = (Math.round(Math.random() * (array.length - 1 - 0) + 0));
+      finalRandomArray[i] = tempArray[randomValue];
+      tempArray.splice(randomValue, 1);
+    }
+    makePins(finalRandomArray);
+  };
+
   var makePins = function (array) {
     var fragment = document.createDocumentFragment();
     removePins();
@@ -129,7 +141,8 @@ window.createPins = (function () {
 
   return {
     makePins: makePins,
-    updatePins: updatePins
+    updatePins: updatePins,
+    makeRandomPins: makeRandomPins
   };
 })();
 

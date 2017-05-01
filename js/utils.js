@@ -7,17 +7,15 @@ window.utils = (function () {
   var checkEnterPressed = function (keyCode) {
     if (keyCode === ENTER_KEY_CODE) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
 
   var checkEscPressed = function (keyCode) {
     if (keyCode === ESC_KEY_CODE) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
 
   var removeClass = function (removedClass) {

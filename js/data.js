@@ -7,7 +7,7 @@ window.createData = (function () {
   (function () {
     var onLoad = function (data) {
       window.advert = data;
-      window.createPins.updatePins();
+      window.createPins.makeRandomPins(window.advert, 3);
     };
 
     window.load(dateUrl, onLoad);
